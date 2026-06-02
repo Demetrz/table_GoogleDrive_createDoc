@@ -264,112 +264,52 @@ function fillDocumentsForRow(row) {     // копирует шаблоны, со
   Utilities.sleep(500);
   console.log(`[SLEEP] Пауза 500 мс после копирования`);
 
-  // Заполнение договора
-  console.log(`[DOC1] Открытие документа договора (ID=${template})`);
-  var doc = DocumentApp.openById(template);
-  var docbody = doc.getBody();
-  console.log(`[DOC1] Замена плейсхолдеров...`);
-  docbody.replaceText('DEALER', clientData[1]);
-  docbody.replaceText('DATA', realdata);
-  docbody.replaceText('NUM', agrNum);
-  docbody.replaceText('NUTS', agrNumTS);
-  docbody.replaceText('ORGNAME', clientData[6]);
-  docbody.replaceText('FIOJL', clientData[7]);
-  docbody.replaceText('TELEFONJL', clientData[8]);
-  docbody.replaceText('EMAILJL', clientData[9]);
-  docbody.replaceText('JURADR', clientData[10]);
-  docbody.replaceText('POCHADR', clientData[11]);
-  docbody.replaceText('INN', clientData[12]);
-  docbody.replaceText('KPP', clientData[13]);
-  docbody.replaceText('RS', clientData[36]);
-  docbody.replaceText('KS', clientData[37]);
-  docbody.replaceText('BANK', clientData[38]);
-  docbody.replaceText('FIOFL', clientData[14]);
-  docbody.replaceText('BORN', dateBORN);
-  docbody.replaceText('TELEFONFL', clientData[16]);
-  docbody.replaceText('EMAILFL', clientData[17]);
-  docbody.replaceText('REGADR', clientData[18]);
-  docbody.replaceText('SERPAS', clientData[19]);
-  docbody.replaceText('PASS', clientData[20]);
-  docbody.replaceText('PASD', datePASD);
-  docbody.replaceText('PASDEP', clientData[34]);
-  docbody.replaceText('PASC', clientData[35]);
-  docbody.replaceText('TSVIN', clientData[22]);
-  docbody.replaceText('NTS', clientData[23]);
-  docbody.replaceText('MARK', clientData[24]);
-  docbody.replaceText('MODEL', clientData[25]);
-  docbody.replaceText('YTS', clientData[26]);
-  docbody.replaceText('COLOR', clientData[27]);
-  doc.saveAndClose();
-  console.log(`[DOC1] Договор сохранён и закрыт`);
+  // все плейсхолдеры собраны в одной переменной
+  var replacements = {
+  'DEALER': clientData[1],
+  'DATA': realdata,
+  'NUM': agrNum,
+  'NUTS': agrNumTS,
+  'ORGNAME': clientData[6],
+  'FIOJL': clientData[7],
+  'TELEFONJL': clientData[8],
+  'EMAILJL': clientData[9],
+  'JURADR': clientData[10],
+  'POCHADR': clientData[11],
+  'INN': clientData[12],
+  'KPP': clientData[13],
+  'RS': clientData[36],
+  'KS': clientData[37],
+  'BANK': clientData[38],
+  'FIOFL': clientData[14],
+  'BORN': dateBORN,
+  'TELEFONFL': clientData[16],
+  'EMAILFL': clientData[17],
+  'REGADR': clientData[18],
+  'SERPAS': clientData[19],
+  'PASS': clientData[20],
+  'PASD': datePASD,
+  'PASDEP': clientData[34],
+  'PASC': clientData[35],
+  'TSVIN': clientData[22],
+  'NTS': clientData[23],
+  'MARK': clientData[24],
+  'MODEL': clientData[25],
+  'YTS': clientData[26],
+  'COLOR': clientData[27],
+  // Специфичные для согласия:
+  'SERPASJ': clientData[28],
+  'NPASJ': clientData[29],
+  'PASDEPJ': clientData[30],
+  'PASDJ': datePASDJ,
+  'PASCJ': clientData[32],
+  'ADRREGJ': clientData[33]
+};
 
-  // Заполнение приложения
-  console.log(`[DOC2] Открытие документа приложения (ID=${templateDob})`);
-  var doc2 = DocumentApp.openById(templateDob);
-  var docbodyDob = doc2.getBody();
-  console.log(`[DOC2] Замена плейсхолдеров...`);
-  docbodyDob.replaceText('DEALER', clientData[1]);
-  docbodyDob.replaceText('DATA', realdata);
-  docbodyDob.replaceText('NUM', agrNum);
-  docbodyDob.replaceText('NUTS', agrNumTS);
-  docbodyDob.replaceText('ORGNAME', clientData[6]);
-  docbodyDob.replaceText('FIOJL', clientData[7]);
-  docbodyDob.replaceText('TELEFONJL', clientData[8]);
-  docbodyDob.replaceText('EMAILJL', clientData[9]);
-  docbodyDob.replaceText('JURADR', clientData[10]);
-  docbodyDob.replaceText('POCHADR', clientData[11]);
-  docbodyDob.replaceText('INN', clientData[12]);
-  docbodyDob.replaceText('KPP', clientData[13]);
-  docbodyDob.replaceText('RS', clientData[36]);
-  docbodyDob.replaceText('KS', clientData[37]);
-  docbodyDob.replaceText('BANK', clientData[38]);
-  docbodyDob.replaceText('FIOFL', clientData[14]);
-  docbodyDob.replaceText('BORN', dateBORN);
-  docbodyDob.replaceText('TELEFONFL', clientData[16]);
-  docbodyDob.replaceText('EMAILFL', clientData[17]);
-  docbodyDob.replaceText('REGADR', clientData[18]);
-  docbodyDob.replaceText('SERPAS', clientData[19]);
-  docbodyDob.replaceText('PASS', clientData[20]);
-  docbodyDob.replaceText('PASD', datePASD);
-  docbodyDob.replaceText('PASDEP', clientData[34]);
-  docbodyDob.replaceText('PASC', clientData[35]);
-  docbodyDob.replaceText('TSVIN', clientData[22]);
-  docbodyDob.replaceText('NTS', clientData[23]);
-  docbodyDob.replaceText('MARK', clientData[24]);
-  docbodyDob.replaceText('MODEL', clientData[25]);
-  docbodyDob.replaceText('YTS', clientData[26]);
-  docbodyDob.replaceText('COLOR', clientData[27]);
-  doc2.saveAndClose();
-  console.log(`[DOC2] Приложение сохранено и закрыто`);
-
-  // Заполнение согласия
-  console.log(`[DOC3] Открытие документа согласия (ID=${templateAGR})`);
-  var doc3 = DocumentApp.openById(templateAGR);
-  var docbodyAGR = doc3.getBody();
-  console.log(`[DOC3] Замена плейсхолдеров...`);
-  docbodyAGR.replaceText('FIOFL', clientData[14]);
-  docbodyAGR.replaceText('FIOJL', clientData[7]);
-  docbodyAGR.replaceText('EMAILJL', clientData[9]);
-  docbodyAGR.replaceText('TELEFONJL', clientData[8]);
-  docbodyAGR.replaceText('SERPASJ', clientData[28]);
-  docbodyAGR.replaceText('NPASJ', clientData[29]);
-  docbodyAGR.replaceText('PASDEPJ', clientData[30]);
-  docbodyAGR.replaceText('PASDJ', datePASDJ);
-  docbodyAGR.replaceText('PASCJ', clientData[32]);
-  docbodyAGR.replaceText('ADRREGJ', clientData[33]);
-  docbodyAGR.replaceText('SERPAS', clientData[19]);
-  docbodyAGR.replaceText('PASS', clientData[20]);
-  docbodyAGR.replaceText('PASDEP', clientData[34]);
-  docbodyAGR.replaceText('PASC', clientData[35]);
-  docbodyAGR.replaceText('REGADR', clientData[18]);
-  docbodyAGR.replaceText('PASD', datePASD);
-  docbodyAGR.replaceText('TELEFONFL', clientData[16]);
-  docbodyAGR.replaceText('EMAILFL', clientData[17]);
-  docbodyAGR.replaceText('MARK', clientData[24]);
-  docbodyAGR.replaceText('MODEL', clientData[25]);
-  docbodyAGR.replaceText('TSVIN', clientData[22]);
-  doc3.saveAndClose();
-  console.log(`[DOC3] Согласие сохранено и закрыто`);
+fillDocument(template, replacements);
+fillDocument(templateDob, replacements);
+fillDocument(templateAGR, replacements);
+  
 
   // Сохраняем ID документов в таблицу
   console.log(`[SHEET] Запись ID и статусов в строку ${row}, столбцы 40-46`);
@@ -390,6 +330,15 @@ function fillDocumentsForRow(row) {     // копирует шаблоны, со
   //ui.alert('Готово', 'Документы для строки ' + row + ' созданы и заполнены.', ui.ButtonSet.OK);
   ss.toast('Документы для строки ' + row + ' созданы', 'Готово', 5);
   console.log(`[END] fillDocumentsForRow для строки ${row} успешно завершена`);
+}
+
+function fillDocument(fileId, replacements) {       // принимает ID файла документа и объект с заменами, выполняет все замены и сохраняет документ
+  var doc = DocumentApp.openById(fileId);
+  var body = doc.getBody();
+  for (var placeholder in replacements) {
+    body.replaceText(placeholder, replacements[placeholder]);
+  }
+  doc.saveAndClose();
 }
 
 function genAgrNumRow(row) {      // возвращает номер оферты (№ не используется при создании документов)
