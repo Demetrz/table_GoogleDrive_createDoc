@@ -1,4 +1,4 @@
-function quota() {
+function quota() {      // функция для пользовательского меню, выводит на экран оставшийся для аккаунта лимит отправок писем
   var ui = SpreadsheetApp.getUi();
   var remaining = MailApp.getRemainingDailyQuota();
   ui.alert('📊 Оставшаяся квота на отправку писем',
@@ -7,7 +7,7 @@ function quota() {
 }
 
 
-function genAgrNum1(row) {
+function genAgrNum1(row) {      // возвращает номер оферты (№ не используется при создании документов)
   var ss = SpreadsheetApp.getActive();
   var sheet = ss.getSheets()[0];
   var values = sheet.getDataRange().getValues();
@@ -34,15 +34,15 @@ function genAgrNum1(row) {
   return 'GWM' + num + '-26';
 }
 
-function randomNum1(rowNum) {
+function randomNum1(rowNum) {       // рандомайзер для номера оферты
   return Math.floor(Math.random()*(99999-rowNum+1))+rowNum;
 }
 
-function onOpen() {
+function onOpen() {     // пользовательское меню
   var ui = SpreadsheetApp.getUi();
   ui.createMenu('📌 Отправка и создание по № строки')
     .addItem('📧 Отправить все документы ', 'sendAllPrompt')
-    .addSeparator()
+    .addSeparator()         // линия разделитель
     .addItem('Оферта ➜ клиенту', 'sendOfferPrompt')
     .addSeparator()
     .addItem('Приложение ➜ менеджеру', 'sendAppPrompt')
@@ -60,7 +60,7 @@ function onOpen() {
 // row - номер строки
 
 
-function sendOfferPrompt() {
+function sendOfferPrompt() {        // функция для пользовательского меню отправки оферты клиенту из выбранной строки
   var ui = SpreadsheetApp.getUi();
   var response = ui.prompt('Отправка оферты', '\nВведите номер строки:', ui.ButtonSet.OK_CANCEL);
   if (response.getSelectedButton() == ui.Button.OK) {
@@ -75,7 +75,7 @@ function sendOfferPrompt() {
   }
 }
 
-function sendAppPrompt() {
+function sendAppPrompt() {      // функция пользовательского меню отправки приложения менеджеру из выбранной строки
   var ui = SpreadsheetApp.getUi();
   var response = ui.prompt('Отправка приложения', '\nВведите номер строки:', ui.ButtonSet.OK_CANCEL);
   if (response.getSelectedButton() == ui.Button.OK) {
@@ -90,7 +90,7 @@ function sendAppPrompt() {
   }
 }
 
-function sendConsentPrompt() {
+function sendConsentPrompt() {      // функция пользовательского меню отправки согласия на ОПД менеджеру из выбранной строки
   var ui = SpreadsheetApp.getUi();
   var response = ui.prompt('Отправка согласия', '\nВведите номер строки:', ui.ButtonSet.OK_CANCEL);
   if (response.getSelectedButton() == ui.Button.OK) {
@@ -105,7 +105,7 @@ function sendConsentPrompt() {
   }
 }
 
-function sendAllPrompt() {
+function sendAllPrompt() {      // функция пользовательского меню, отправляет все документы адресатам из выбранной строки
   var ui = SpreadsheetApp.getUi();
   var response = ui.prompt('Отправка всех документов', 'Введите номер строки для отправки оферты, приложения и согласия:', ui.ButtonSet.OK_CANCEL);
   if (response.getSelectedButton() == ui.Button.OK) {
@@ -128,7 +128,7 @@ function sendAllPrompt() {
 
 //@param {number} rowNumber - номер строки в таблице (начиная с 1)
 
-function sendPdfForRow(rowNumber) {
+function sendPdfForRow(rowNumber) {     // преобразует оферту в PDF и отправляет письмо клиенту
   var ss = SpreadsheetApp.getActive();
   var sheet = ss.getSheets()[0];
   var lastR = sheet.getLastRow();
@@ -167,7 +167,7 @@ function sendPdfForRow(rowNumber) {
 }
 
 
-function sendPdfdobForRow(rowNumber) {
+function sendPdfdobForRow(rowNumber) {      // преобразует приложение в PDF и отправляет письмо менеджеру
   var ss = SpreadsheetApp.getActive();
   var sheet = ss.getSheets()[0];
   var lastR = sheet.getLastRow();
@@ -193,7 +193,7 @@ function sendPdfdobForRow(rowNumber) {
 }
 
 
-function sendPdfAGRForRow(rowNumber) {
+function sendPdfAGRForRow(rowNumber) {      // преобразует согласие в PDF и отправляет менеджеру
   var ss = SpreadsheetApp.getActive();
   var sheet = ss.getSheets()[0];
   var lastR = sheet.getLastRow();
@@ -218,7 +218,7 @@ function sendPdfAGRForRow(rowNumber) {
   console.log('Согласие для строки ' + rowNumber + ' отправлено, ячейка статуса закрашена зелёным.');
 }
 
-function createDocuments() {
+function createDocuments() {        // функция пользовательского меню создания документов по номеру строки
   var ui = SpreadsheetApp.getUi();
   var response = ui.prompt('Создание документов', '\nВведите номер строки:', ui.ButtonSet.OK_CANCEL);
   if (response.getSelectedButton() == ui.Button.OK) {
@@ -236,7 +236,7 @@ function createDocuments() {
   }
 }
 
-function fillDocumentsForRow(row) {
+function fillDocumentsForRow(row) {     // копирует шаблоны, сохраяет в отдельном каталоге, заменяет плейсхолдеры данными из таблицы
   console.log(`[START] fillDocumentsForRow для строки ${row}`);
   var ss = SpreadsheetApp.getActive();
   var sheet = ss.getSheets()[0];
